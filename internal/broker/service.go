@@ -109,7 +109,8 @@ func NewService(ctx context.Context, cfg *config.Config) (s *Service, err error)
 	// Load the storage provider
 	ssdstore := storage.NewSSD(s)
 	memstore := storage.NewInMemory(s)
-	s.storage = config.LoadProvider(cfg.Storage, storage.NewNoop(), memstore, ssdstore).(storage.Storage)
+	t4store := storage.NewT4()
+	s.storage = config.LoadProvider(cfg.Storage, storage.NewNoop(), memstore, ssdstore, t4store).(storage.Storage)
 	logging.LogTarget("service", "configured message storage", s.storage.Name())
 
 	// Load the metering provider
